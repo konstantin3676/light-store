@@ -43,7 +43,7 @@ class ProductService:
             )
         return res
 
-    async def update_course(
+    async def update_product(
         self, id: int, update_data: UpdateProductRequest
     ) -> Product:
         product = await self.get_by_id(id)
