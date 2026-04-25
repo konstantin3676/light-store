@@ -36,6 +36,17 @@ class CreateOrderRequest(BaseModel):
     order_items: list[CreateOrderItemRequest]
 
 
+class UpdateOrderItemRequest(BaseModel):
+    id: int
+    product_id: int | None
+    quantity: Annotated[int | None, Field(ge=0)] = None
+    price_at_purchase: Annotated[
+        Decimal | None,
+        Field(ge=0, max_digits=10, decimal_places=2),
+    ] = None
+
+
 class UpdateOrderRequest(BaseModel):
     address: str | None = None
     status: OrderStatusEnum | None = None
+    order_items: list[UpdateOrderItemRequest]

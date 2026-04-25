@@ -1,8 +1,7 @@
 from collections.abc import Sequence
-from typing import cast
 
 from fastapi import Depends
-from sqlalchemy import CursorResult, delete, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_session
@@ -55,11 +54,12 @@ class ProductRepository:
         return product
 
     async def delete(self, id: int) -> bool:
-        result = await self.db.execute(
-            delete(Product).where(Product.id == id),
-        )
+        product = await self.get_by_id(id)
+        if not product:
+            return False
+        await self.db.delete(product)
         await self.db.commit()
-        return cast(CursorResult, result).rowcount > 0
+        return True
 
 
 async def get_product_repository(
