@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from src.schemas.order_schema import (
     CreateOrderRequest,
     OrderResponse,
+    UpdateOrderRequest,
 )
 from src.services.order_service import OrderService, get_order_service
 
@@ -47,18 +48,18 @@ async def add_order(
     return res
 
 
-# @router.put(
-#     "/{order_id}",
-#     response_model=OrderResponse,
-#     summary="Update a order by id",
-# )
-# async def update_order(
-#     order_id: int,
-#     order_data: UpdateOrderRequest,
-#     service: OrderService = Depends(get_order_service),
-# ):
-#     res = await service.update_order(id=order_id, update_data=order_data)
-#     return res
+@router.put(
+    "/{order_id}",
+    response_model=OrderResponse,
+    summary="Update a order by id",
+)
+async def update_order(
+    order_id: int,
+    order_data: UpdateOrderRequest,
+    service: OrderService = Depends(get_order_service),
+):
+    res = await service.update_order(id=order_id, update_data=order_data)
+    return res
 
 
 @router.delete(

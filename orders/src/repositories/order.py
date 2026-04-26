@@ -58,6 +58,7 @@ class OrderRepository:
     ) -> None:
         existing_items = {item.id: item for item in order.order_items}
         updated_item_ids = set()
+        items_to_add = []
         for item_data in items_data:
             if item_data.id is not None and item_data.id in existing_items:
                 item = existing_items[item_data.id]
@@ -75,12 +76,13 @@ class OrderRepository:
                     quantity=item_data.quantity,
                     price_at_purchase=item_data.price_at_purchase,
                 )
-                order.order_items.append(new_item)
+                items_to_add.append(new_item)
         items_to_delete = [
             item for item in order.order_items if item.id not in updated_item_ids
         ]
         for item in items_to_delete:
             order.order_items.remove(item)
+        order.order_items.extend(items_to_add)
 
     async def update_order(
         self, id: int, update_data: UpdateOrderRequest
@@ -92,7 +94,8 @@ class OrderRepository:
             order.address = update_data.address
         if update_data.status is not None:
             order.status = update_data.status
-        await self._update_order_items(order, update_data.order_items)
+        if update_data.order_items is not None:
+            await self._update_order_items(order, update_data.order_items)
         await self.db.commit()
         order = await self.get_order_by_id(id)
         return order
