@@ -1,17 +1,19 @@
-from collections.abc import Sequence
-
 from fastapi import Depends, HTTPException, status
 
 from src.models.product import Product
 from src.repositories.product import ProductRepository, get_product_repository
-from src.schemas.product_schema import CreateProductRequest, UpdateProductRequest
+from src.schemas.product_schema import (
+    CreateProductRequest,
+    UpdateProductRequest,
+    UpdateStockProduct,
+)
 
 
 class ProductService:
     def __init__(self, repo: ProductRepository):
         self.repo = repo
 
-    async def get_all(self, skip: int | None, limit: int | None) -> Sequence[Product]:
+    async def get_all(self, skip: int | None, limit: int | None) -> list[Product]:
         res = await self.repo.get_all(skip=skip, limit=limit)
         if not res:
             raise HTTPException(
@@ -26,6 +28,15 @@ class ProductService:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Product not found",
+            )
+        return res
+
+    async def get_by_ids(self, product_ids: list[int]) -> list[Product]:
+        res = await self.repo.get_by_ids(product_ids)
+        if not res:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Products not found",
             )
         return res
 
@@ -66,6 +77,26 @@ class ProductService:
                 )
             return res
         return product
+
+    async def update_stock(self, products_data: list[UpdateStockProduct]) -> None:
+        if not products_data:
+            return
+
+        product_ids = [item.product_id for item in products_data]
+        existing_products = await self.repo.get_by_ids(product_ids)
+        if len(existing_products) != len(product_ids):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Some products not found",
+            )
+
+        try:
+            await self.repo.update_stock(products_data)
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to update stock: {str(e)}",
+            )
 
     async def check_name(self, name: str) -> bool:
         return await self.repo.exists_by_name(name)

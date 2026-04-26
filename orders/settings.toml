@@ -10,4 +10,9 @@ db_name = "postgres"
 db_user = "user"
 db_password = "password"
 db_host = "orders_db"
-db_port = 5433
+db_port = 5432
+
+[http_client_settings]
+products_service_url = "http://products:8000/api/v1/products/"
+http_timeout = 30.0
+http_max_retries = 3

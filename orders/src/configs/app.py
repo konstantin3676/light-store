@@ -35,9 +35,16 @@ class DBConfig(BaseModel):
         return self.dsl
 
 
+class HttpClientConfig(BaseModel):
+    products_service_url: str
+    http_timeout: float
+    http_max_retries: int
+
+
 class Settings(BaseModel):
     app: APPConfig
     db: DBConfig
+    http_client: HttpClientConfig
 
 
 env_settings = Dynaconf(settings_file=["settings.toml"])
@@ -45,4 +52,5 @@ env_settings = Dynaconf(settings_file=["settings.toml"])
 settings = Settings(
     app=env_settings["app_settings"],
     db=env_settings["db_settings"],
+    http_client=env_settings["http_client_settings"],
 )

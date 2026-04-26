@@ -4,8 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from src.schemas.product_schema import (
     CreateProductRequest,
+    ProductAvailabilityResponse,
     ProductResponse,
+    ProductsRequest,
     UpdateProductRequest,
+    UpdateStockRequest,
 )
 from src.services.product_service import ProductService, get_product_service
 
@@ -23,6 +26,19 @@ async def get_all_products(
     service: ProductService = Depends(get_product_service),
 ):
     products = await service.get_all(skip=skip, limit=limit)
+    return products
+
+
+@router.post(
+    "/check-availability",
+    response_model=list[ProductAvailabilityResponse],
+    summary="Get products by ids",
+)
+async def get_products_by_ids(
+    products_data: ProductsRequest,
+    service: ProductService = Depends(get_product_service),
+):
+    products = await service.get_by_ids(products_data.product_ids)
     return products
 
 
@@ -73,4 +89,17 @@ async def delete_product(
     deleted = await service.delete_product(product_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Product not found")
+    return None
+
+
+@router.post(
+    "/update-stock",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Update products quantity",
+)
+async def update_stock(
+    update_stock_data: UpdateStockRequest,
+    service: ProductService = Depends(get_product_service),
+):
+    await service.update_stock(update_stock_data.products)
     return None

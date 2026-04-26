@@ -15,6 +15,12 @@ class ProductResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class ProductAvailabilityResponse(BaseModel):
+    id: int
+    stock: int
+    model_config = ConfigDict(from_attributes=True)
+
+
 class CreateProductRequest(BaseModel):
     name: str
     desc: str | None = None
@@ -35,3 +41,16 @@ class UpdateProductRequest(BaseModel):
     ] = None
     stock: Annotated[int | None, Field(ge=0)] = None
     sku: str | None = None
+
+
+class ProductsRequest(BaseModel):
+    product_ids: list[int]
+
+
+class UpdateStockProduct(BaseModel):
+    product_id: int
+    quantity: int
+
+
+class UpdateStockRequest(BaseModel):
+    products: list[UpdateStockProduct]

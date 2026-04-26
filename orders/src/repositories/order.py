@@ -106,7 +106,7 @@ class OrderRepository:
         return True
 
 
-async def get_Order_repository(
+async def get_order_repository(
     db: AsyncSession = Depends(get_session),
 ) -> OrderRepository:
     return OrderRepository(db)
