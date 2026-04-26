@@ -6,12 +6,22 @@ from pydantic import BaseModel, ConfigDict, Field
 from src.models.sql_enums import OrderStatusEnum
 
 
+class AllOrderResponse(BaseModel):
+    id: int
+    address: str
+    status: OrderStatusEnum
+    model_config = ConfigDict(from_attributes=True)
+
+
 class OrderItemResponse(BaseModel):
     id: int
     order_id: int
     product_id: int
     quantity: int
-    price_at_purchase: Decimal
+    price_at_purchase: Annotated[
+        Decimal,
+        Field(max_digits=10, decimal_places=2),
+    ]
 
 
 class OrderResponse(BaseModel):
