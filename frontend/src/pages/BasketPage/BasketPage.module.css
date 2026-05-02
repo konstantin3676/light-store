@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-grow: 1;
+  min-height: 0;
+  padding-block: 10px;
+}
+
+.content {
+  max-width: 1024px;
+  width: 100%;
+  overflow: auto;
+}

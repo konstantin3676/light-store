@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  gap: 10px;
+  padding: 6px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.name {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.quantity {
+  display: flex;
+  flex-basis: 100px;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+
+.priceAtPurchase {
+  flex-basis: 100px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}

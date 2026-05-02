@@ -17,19 +17,21 @@ type Props = {
 export const ProductCard = ({ id, name, desc, price }: Props) => {
   const dispatch = useAppDispatch();
   const orderItems = useAppSelector(getBasketOrderItems);
-  const hasAtBasket = orderItems.some(({ product_id }) => product_id === id);
+  const hasAtBasket = orderItems.some(({ productId }) => productId === id);
 
   const handleAddBasket = () => {
     let newOrderItems;
     if (hasAtBasket) {
-      newOrderItems = orderItems.filter(({ product_id }) => product_id !== id);
+      newOrderItems = orderItems.filter(({ productId }) => productId !== id);
     } else {
       newOrderItems = [
         ...orderItems,
         {
-          product_id: id,
+          productId: id,
+          name,
           quantity: 1,
-          price_at_purchase: Number.parseFloat(price),
+          price: Number.parseFloat(price),
+          priceAtPurchase: Number.parseFloat(price),
         },
       ];
     }
@@ -39,7 +41,7 @@ export const ProductCard = ({ id, name, desc, price }: Props) => {
   return (
     <Card shadow="sm" padding="lg" withBorder className={classes.card}>
       <Card.Section>
-        <Image src={lampImgUrl} height={160} alt="Fried egg" />
+        <Image src={lampImgUrl} height={160} alt="Lamp" />
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">

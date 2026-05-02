@@ -18,6 +18,18 @@ export const basketSlice = createSlice({
     ) => {
       state.orderItems = payload;
     },
+    changeOrderItemQuantity: (
+      state,
+      { payload }: PayloadAction<{ productId: number; quantity: number }>,
+    ) => {
+      const orderItem = state.orderItems.find(
+        ({ productId }) => productId === payload.productId,
+      );
+      if (orderItem) {
+        orderItem.quantity = payload.quantity;
+        orderItem.priceAtPurchase = orderItem.price * orderItem.quantity;
+      }
+    },
   },
 });
 

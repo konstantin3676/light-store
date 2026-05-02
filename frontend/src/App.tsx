@@ -1,20 +1,18 @@
 import { Route, Routes } from 'react-router';
 
-import classes from './App.module.css';
-import { Header } from './components/Header/Header';
+import { Layout } from './components/Layout/Layout';
 import { AdminPage } from './pages/AdminPage/AdminPage';
+import { BasketPage } from './pages/BasketPage/BasketPage';
 import { MainPage } from './pages/MainPage/MainPage';
 
 export const App = () => {
   return (
-    <div className={classes.container}>
-      <Header />
-      <main className={classes.main}>
-        <Routes>
-          <Route index element={<MainPage />} />
-          <Route path="admin" element={<AdminPage />} />
-        </Routes>
-      </main>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<MainPage />} />
+        <Route path="basket" element={<BasketPage />} />
+        <Route path="admin" element={<AdminPage />} />
+      </Route>
+    </Routes>
   );
 };

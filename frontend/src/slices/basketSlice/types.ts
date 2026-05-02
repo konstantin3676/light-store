@@ -1,7 +1,9 @@
 export type OrderItem = {
-  product_id: number;
+  productId: number;
+  name: string;
   quantity: number;
-  price_at_purchase: number;
+  price: number;
+  priceAtPurchase: number;
 };
 
 export type BasketSchema = {

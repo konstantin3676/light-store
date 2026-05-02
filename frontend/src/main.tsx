@@ -13,12 +13,12 @@ import { store } from './store';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <StoreProvider store={store}>
-        <MantineProvider>
+    <StoreProvider store={store}>
+      <MantineProvider>
+        <BrowserRouter>
           <App />
-        </MantineProvider>
-      </StoreProvider>
-    </BrowserRouter>
+        </BrowserRouter>
+      </MantineProvider>
+    </StoreProvider>
   </StrictMode>,
 );
