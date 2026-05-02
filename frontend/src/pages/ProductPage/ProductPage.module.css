@@ -10,31 +10,26 @@
 .content {
   display: flex;
   flex-direction: column;
+  gap: 10px;
   max-width: 1024px;
   width: 100%;
   padding-inline: 10px;
   overflow: auto;
 }
 
-.form {
+.nameWrapper {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: sticky;
-  bottom: 0;
-  margin-top: 20px;
-  background-color: #fff;
-}
-
-.orderAmount {
-  display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   font-size: 18px;
   font-weight: 500;
 }
 
-.orderButton {
+.buttonWrapper {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 10px;
+}
+
+.button {
+  width: 170px;
 }

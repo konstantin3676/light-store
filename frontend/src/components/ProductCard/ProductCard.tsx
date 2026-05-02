@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router';
+
 import { Badge, Button, Card, Group, Image, Text } from '@mantine/core';
 
 import lampImgUrl from '../../assets/lamp.jpg';
@@ -15,11 +17,15 @@ type Props = {
 };
 
 export const ProductCard = ({ id, name, desc, price }: Props) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const orderItems = useAppSelector(getBasketOrderItems);
   const hasAtBasket = orderItems.some(({ productId }) => productId === id);
 
-  const handleAddBasket = () => {
+  const handleAddBasket = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
     let newOrderItems;
     if (hasAtBasket) {
       newOrderItems = orderItems.filter(({ productId }) => productId !== id);
@@ -39,7 +45,15 @@ export const ProductCard = ({ id, name, desc, price }: Props) => {
   };
 
   return (
-    <Card shadow="sm" padding="lg" withBorder className={classes.card}>
+    <Card
+      shadow="sm"
+      padding="lg"
+      withBorder
+      className={classes.card}
+      onClick={() => {
+        navigate(`/products/${id}`);
+      }}
+    >
       <Card.Section>
         <Image src={lampImgUrl} height={160} alt="Lamp" />
       </Card.Section>
