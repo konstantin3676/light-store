@@ -1,6 +1,9 @@
 import { Badge, Button, Card, Group, Image, Text } from '@mantine/core';
 
-import foodImgUrl from '../../assets/food.jpeg';
+import lampImgUrl from '../../assets/lamp.jpg';
+import { useAppDispatch, useAppSelector } from '../../hook';
+import { basketActions } from '../../slices/basketSlice/basketSlice';
+import { getBasketOrderItems } from '../../slices/basketSlice/selectors';
 import classes from './ProductCard.module.css';
 
 import type { Product } from '../../types';
@@ -11,11 +14,32 @@ type Props = {
   price: Product['price'];
 };
 
-export const ProductCard = ({ name, desc, price }: Props) => {
+export const ProductCard = ({ id, name, desc, price }: Props) => {
+  const dispatch = useAppDispatch();
+  const orderItems = useAppSelector(getBasketOrderItems);
+  const hasAtBasket = orderItems.some(({ product_id }) => product_id === id);
+
+  const handleAddBasket = () => {
+    let newOrderItems;
+    if (hasAtBasket) {
+      newOrderItems = orderItems.filter(({ product_id }) => product_id !== id);
+    } else {
+      newOrderItems = [
+        ...orderItems,
+        {
+          product_id: id,
+          quantity: 1,
+          price_at_purchase: Number.parseFloat(price),
+        },
+      ];
+    }
+    dispatch(basketActions.setOrderItems(newOrderItems));
+  };
+
   return (
     <Card shadow="sm" padding="lg" withBorder className={classes.card}>
       <Card.Section>
-        <Image src={foodImgUrl} height={160} alt="Fried egg" />
+        <Image src={lampImgUrl} height={160} alt="Fried egg" />
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
@@ -27,8 +51,8 @@ export const ProductCard = ({ name, desc, price }: Props) => {
         {desc}
       </Text>
 
-      <Button color="blue" fullWidth mt="md">
-        Купить
+      <Button color="blue" fullWidth mt="md" onClick={handleAddBasket}>
+        {hasAtBasket ? 'Убрать из корзины' : 'Купить'}
       </Button>
     </Card>
   );
