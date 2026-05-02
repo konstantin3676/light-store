@@ -1,9 +1,14 @@
 .header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   height: 50px;
   padding-inline: 20px;
   flex-shrink: 0;
   border-bottom: 1px solid #dee2e6;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
 }
