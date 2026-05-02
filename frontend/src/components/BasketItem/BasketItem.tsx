@@ -21,53 +21,57 @@ export const BasketItem = ({ id, name, quantity, priceAtPurchase }: Props) => {
   return (
     <div className={classes.container}>
       <div className={classes.name}>{name}</div>
-      <div className={classes.quantity}>
-        <ActionIcon
-          variant="subtle"
-          size="md"
-          disabled={quantity === 1}
-          onClick={() => {
-            dispatch(
-              basketActions.changeOrderItemQuantity({
-                productId: id,
-                quantity: quantity - 1,
-              }),
-            );
-          }}
-        >
-          <MinusIcon style={{ width: '70%', height: '70%' }} />
-        </ActionIcon>
-        <div>{quantity}</div>
-        <ActionIcon
-          variant="subtle"
-          size="md"
-          onClick={() => {
-            dispatch(
-              basketActions.changeOrderItemQuantity({
-                productId: id,
-                quantity: quantity + 1,
-              }),
-            );
-          }}
-        >
-          <PlusIcon style={{ width: '70%', height: '70%' }} />
-        </ActionIcon>
-      </div>
-      <div className={classes.priceAtPurchase}>{`${priceAtPurchase} руб`}</div>
-      <div>
-        <ActionIcon
-          variant="subtle"
-          size="md"
-          onClick={() => {
-            dispatch(
-              basketActions.setOrderItems(
-                orderItems.filter(({ productId }) => productId !== id),
-              ),
-            );
-          }}
-        >
-          <TrashIcon style={{ width: '70%', height: '70%' }} />
-        </ActionIcon>
+      <div className={classes.wrapper}>
+        <div className={classes.quantity}>
+          <ActionIcon
+            variant="subtle"
+            size="md"
+            disabled={quantity === 1}
+            onClick={() => {
+              dispatch(
+                basketActions.changeOrderItemQuantity({
+                  productId: id,
+                  quantity: quantity - 1,
+                }),
+              );
+            }}
+          >
+            <MinusIcon style={{ width: '70%', height: '70%' }} />
+          </ActionIcon>
+          <div>{quantity}</div>
+          <ActionIcon
+            variant="subtle"
+            size="md"
+            onClick={() => {
+              dispatch(
+                basketActions.changeOrderItemQuantity({
+                  productId: id,
+                  quantity: quantity + 1,
+                }),
+              );
+            }}
+          >
+            <PlusIcon style={{ width: '70%', height: '70%' }} />
+          </ActionIcon>
+        </div>
+        <div
+          className={classes.priceAtPurchase}
+        >{`${priceAtPurchase} руб`}</div>
+        <div>
+          <ActionIcon
+            variant="subtle"
+            size="md"
+            onClick={() => {
+              dispatch(
+                basketActions.setOrderItems(
+                  orderItems.filter(({ productId }) => productId !== id),
+                ),
+              );
+            }}
+          >
+            <TrashIcon style={{ width: '70%', height: '70%' }} />
+          </ActionIcon>
+        </div>
       </div>
     </div>
   );
