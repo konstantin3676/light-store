@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from src.api.v1.product_api import router as product_router
 from src.configs.app import settings
 from src.dependencies import set_app
 from src.services.http_client_service import HttpClientService
@@ -31,3 +32,5 @@ app = FastAPI(
     openapi_url="/api/openapi.json",
     lifespan=lifespan,
 )
+
+app.include_router(product_router, prefix="/api/v1/products", tags=["product"])
