@@ -1,0 +1,11 @@
+[app_settings]
+app_version = "0.1.0"
+app_name = "Gateway"
+app_host = "0.0.0.0"
+app_port = 8000
+
+[http_client_settings]
+products_service_url = "http://products:8000/api/v1/products/"
+orders_service_url = "http://orders:8000/api/v1/orders/"
+http_timeout = 30.0
+http_max_retries = 3
