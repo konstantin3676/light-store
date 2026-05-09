@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from src.api.v1.order_api import router as order_router
 from src.api.v1.product_api import router as product_router
 from src.configs.app import settings
 from src.dependencies import set_app
@@ -34,3 +35,4 @@ app = FastAPI(
 )
 
 app.include_router(product_router, prefix="/api/v1/products", tags=["product"])
+app.include_router(order_router, prefix="/api/v1/orders", tags=["order"])
