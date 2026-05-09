@@ -1,21 +1,36 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import { Badge, Button, Image } from '@mantine/core';
 
 import lampImgUrl from '../../assets/lamp.jpg';
-import { products } from '../../fixtures';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { basketActions } from '../../slices/basketSlice/basketSlice';
 import { getBasketOrderItems } from '../../slices/basketSlice/selectors';
+import { productActions } from '../../slices/productSlice/productSlice';
+import { getProduct } from '../../slices/productSlice/selectors';
+import { fetchProduct } from '../../slices/productSlice/services/fetchProduct';
 import classes from './ProductPage.module.css';
 
 export const ProductPage = () => {
   const { pid } = useParams();
   const productId = Number(pid);
   const dispatch = useAppDispatch();
-  const product = products.find(({ id }) => id === productId);
+  const product = useAppSelector(getProduct);
   const orderItems = useAppSelector(getBasketOrderItems);
   const hasAtBasket = orderItems.some((item) => item.productId === productId);
+
+  useEffect(() => {
+    if (productId) {
+      dispatch(fetchProduct(productId));
+    }
+  }, [dispatch, productId]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(productActions.setProduct(null));
+    };
+  }, [dispatch]);
 
   if (!product) return null;
 

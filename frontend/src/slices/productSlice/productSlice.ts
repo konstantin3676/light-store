@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { fetchProduct } from './services/fetchProduct';
 import { fetchProducts } from './services/fetchProducts';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -19,7 +20,7 @@ export const productSlice = createSlice({
   reducers: {
     setProduct: (
       state,
-      { payload }: PayloadAction<ProductSchema['product']>,
+      { payload }: PayloadAction<ProductSchema['product'] | null>,
     ) => {
       state.product = payload;
     },
@@ -42,6 +43,19 @@ export const productSlice = createSlice({
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.productsLoading = false;
       state.productsError = action.payload ?? null;
+    });
+    builder.addCase(fetchProduct.pending, (state) => {
+      state.productError = null;
+      state.productLoading = true;
+      state.product = null;
+    });
+    builder.addCase(fetchProduct.fulfilled, (state, action) => {
+      state.productLoading = false;
+      state.product = action.payload;
+    });
+    builder.addCase(fetchProduct.rejected, (state, action) => {
+      state.productLoading = false;
+      state.productError = action.payload ?? null;
     });
   },
 });

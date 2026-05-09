@@ -23,7 +23,7 @@ async def get_all_products(
 
 
 @router.get(
-    "/{product_id}",
+    "/{product_id}/",
     response_model=ProductResponse,
     summary="Get a product by id",
 )
