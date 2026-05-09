@@ -56,7 +56,7 @@ export const BasketItem = ({ id, name, quantity, priceAtPurchase }: Props) => {
         </div>
         <div
           className={classes.priceAtPurchase}
-        >{`${priceAtPurchase} руб`}</div>
+        >{`${priceAtPurchase.toFixed(2)} руб`}</div>
         <div>
           <ActionIcon
             variant="subtle"
