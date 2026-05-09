@@ -1,4 +1,4 @@
-import type { Product } from '../../types';
+import type { Product } from '../../slices/productSlice/types';
 import { ProductCard } from '../ProductCard/ProductCard';
 import classes from './ProductList.module.css';
 

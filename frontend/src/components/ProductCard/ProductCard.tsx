@@ -8,7 +8,8 @@ import { basketActions } from '../../slices/basketSlice/basketSlice';
 import { getBasketOrderItems } from '../../slices/basketSlice/selectors';
 import classes from './ProductCard.module.css';
 
-import type { Product } from '../../types';
+import type { Product } from '../../slices/productSlice/types';
+
 type Props = {
   id: Product['id'];
   name: Product['name'];

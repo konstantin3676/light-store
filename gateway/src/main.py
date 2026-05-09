@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.v1.order_api import router as order_router
 from src.api.v1.product_api import router as product_router
@@ -32,6 +33,14 @@ app = FastAPI(
     docs_url="/api/docs",
     openapi_url="/api/openapi.json",
     lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
 )
 
 app.include_router(product_router, prefix="/api/v1/products", tags=["product"])
