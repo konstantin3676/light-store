@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 6px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+.name {
+  flex-grow: 1;
+  font-weight: 500;
+}
