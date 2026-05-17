@@ -1,5 +1,5 @@
 import { ActionIcon } from '@mantine/core';
-import { TrashIcon } from '@phosphor-icons/react';
+import { PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
 
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { getProductLoading } from '../../slices/productSlice/selectors';
@@ -11,9 +11,10 @@ import type { Product } from '../../slices/productSlice/types';
 type Props = {
   id: Product['id'];
   name: Product['name'];
+  openEditor: () => void;
 };
 
-export const ProductItem = ({ id, name }: Props) => {
+export const ProductItem = ({ id, name, openEditor }: Props) => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector(getProductLoading);
 
@@ -21,6 +22,9 @@ export const ProductItem = ({ id, name }: Props) => {
     <div className={classes.container}>
       <div className={classes.name}>{name}</div>
       <div>
+        <ActionIcon variant="subtle" size="md" onClick={() => openEditor()}>
+          <PencilSimpleIcon style={{ width: '70%', height: '70%' }} />
+        </ActionIcon>
         <ActionIcon
           variant="subtle"
           size="md"
