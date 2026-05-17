@@ -53,7 +53,8 @@ class UserService:
         return True
 
     async def update_user(self, id: int, data: UpdateUserRequest) -> User | None:
-        updated_user = await self.repo.update(id, data)
+        data_dump = data.model_dump()
+        updated_user = await self.repo.update(id, data_dump)
         return updated_user
 
     async def delete_user(self, id: int) -> bool:

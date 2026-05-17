@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.v1.auth_api import router as auth_router
 from src.api.v1.order_api import router as order_router
 from src.api.v1.product_api import router as product_router
 from src.configs.app import settings
@@ -45,3 +46,4 @@ app.add_middleware(
 
 app.include_router(product_router, prefix="/api/v1/products", tags=["product"])
 app.include_router(order_router, prefix="/api/v1/orders", tags=["order"])
+app.include_router(auth_router, prefix="/api/v1/admin", tags=["admin"])

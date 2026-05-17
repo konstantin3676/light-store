@@ -43,11 +43,11 @@ class UserBase(BaseModel):
 class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
-    name: str
+    username: str
 
 
 class UserSignupRequest(UserBase):
-    name: str
+    username: str
     password: str
 
     @field_validator("password")
@@ -84,3 +84,13 @@ class UpdateUserRequest(BaseModel):
 
 class DeleteUserResponse(BaseModel):
     msg: str
+
+
+class SigninResponse(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class SigninRequest(BaseModel):
+    email: EmailStr
+    password: str
