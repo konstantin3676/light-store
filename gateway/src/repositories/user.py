@@ -5,14 +5,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_session
 from src.models.user import User
-from src.schemas.user_schema import UserSignupRequest
 
 
 class UserRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def create(self, user_data: UserSignupRequest) -> User | None:
+    async def create(self, user_data: dict) -> User:
         user = User(**user_data)
         self.db.add(user)
         await self.db.commit()
@@ -32,6 +31,13 @@ class UserRepository:
     ) -> list[User]:
         result = await self.db.execute(select(User).offset(skip).limit(limit))
         return list(result.scalars().all())
+
+    async def update_password(self, user: User, hashed_password: str) -> User | None:
+        user.password = hashed_password
+        self.db.add(user)
+        await self.db.commit()
+        await self.db.refresh(user)
+        return User
 
     async def update(self, id: int, update_data: dict) -> User | None:
         user = await self.get_by_id(id)
