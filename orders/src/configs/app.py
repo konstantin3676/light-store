@@ -15,24 +15,21 @@ class DBConfig(BaseModel):
     db_password: str
     db_host: str
     db_port: int
+    db_ext_port: int
 
     @property
-    def dsl(self):
+    def dsl(self) -> str:
         return (
             f"postgresql+asyncpg://{self.db_user}:{self.db_password}"
-            f"@{self.db_host}:{self.db_port}/{self.db_name}"
-        )
-
-    @property
-    def dsl_test(self):
-        return (
-            f"postgresql+asyncpg://{self.db_user}:{self.db_password}"
-            f"@localhost:{self.db_port}/{self.db_name}"
+            f"@{self.db_host}:{self.db_ext_port}/{self.db_name}"
         )
 
     @property
     def dsn(self) -> str:
-        return self.dsl
+        return (
+            f"postgresql+asyncpg://{self.db_user}:{self.db_password}"
+            f"@{self.db_host}:{self.db_port}/{self.db_name}"
+        )
 
 
 class HttpClientConfig(BaseModel):

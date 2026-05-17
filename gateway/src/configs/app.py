@@ -16,9 +16,33 @@ class HttpClientConfig(BaseModel):
     http_max_retries: int
 
 
+class DBConfig(BaseModel):
+    db_name: str
+    db_user: str
+    db_password: str
+    db_host: str
+    db_port: int
+    db_ext_port: int
+
+    @property
+    def dsl(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.db_user}:{self.db_password}"
+            f"@{self.db_host}:{self.db_ext_port}/{self.db_name}"
+        )
+
+    @property
+    def dsn(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.db_user}:{self.db_password}"
+            f"@{self.db_host}:{self.db_port}/{self.db_name}"
+        )
+
+
 class Settings(BaseModel):
     app: APPConfig
     http_client: HttpClientConfig
+    db: DBConfig
 
 
 env_settings = Dynaconf(settings_file=["settings.toml"])
@@ -26,4 +50,5 @@ env_settings = Dynaconf(settings_file=["settings.toml"])
 settings = Settings(
     app=env_settings["app_settings"],
     http_client=env_settings["http_client_settings"],
+    db=env_settings["db_settings"],
 )
