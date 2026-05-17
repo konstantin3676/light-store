@@ -17,3 +17,8 @@ db_password = "password"
 db_host = "gateway_db"
 db_port = 5432
 db_ext_port = 5434
+
+[auth_settings]
+secret_key = "web-dev"
+algorithm = "HS256"
+access_token_expire_minutes = 30

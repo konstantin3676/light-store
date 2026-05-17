@@ -39,10 +39,17 @@ class DBConfig(BaseModel):
         )
 
 
+class AuthConfig(BaseModel):
+    secret_key: str
+    algorithm: str
+    access_token_expire_minutes: int
+
+
 class Settings(BaseModel):
     app: APPConfig
     http_client: HttpClientConfig
     db: DBConfig
+    auth: AuthConfig
 
 
 env_settings = Dynaconf(settings_file=["settings.toml"])
@@ -51,4 +58,5 @@ settings = Settings(
     app=env_settings["app_settings"],
     http_client=env_settings["http_client_settings"],
     db=env_settings["db_settings"],
+    auth=env_settings["auth_settings"],
 )
