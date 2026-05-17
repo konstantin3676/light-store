@@ -42,6 +42,14 @@ class ProductService:
             )
         return product
 
+    async def delete_product(self, id: int) -> None:
+        await self.service_client.call_service(
+            service_name="products",
+            method="DELETE",
+            endpoint=f"/{id}",
+            headers={"Content-Type": "application/json"},
+        )
+
 
 async def get_product_service(
     service_client: HttpClientService = Depends(get_service_client),
