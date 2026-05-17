@@ -1,12 +1,21 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Layout } from './components/Layout/Layout';
+import { useAppDispatch } from './hook';
 import { AdminPage } from './pages/AdminPage/AdminPage';
 import { BasketPage } from './pages/BasketPage/BasketPage';
 import { MainPage } from './pages/MainPage/MainPage';
 import { ProductPage } from './pages/ProductPage/ProductPage';
+import { userActions } from './slices/userSlice/userSlice';
 
 export const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(userActions.initAuthData());
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route element={<Layout />}>

@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { api } from './api';
 import { basketReducer } from './slices/basketSlice/basketSlice';
 import { productReducer } from './slices/productSlice/productSlice';
+import { userReducer } from './slices/userSlice/userSlice';
 
 import type { AxiosInstance } from 'axios';
 const extraArg: ThunkExtraArg = {
@@ -13,6 +14,7 @@ export const store = configureStore({
   reducer: {
     basket: basketReducer,
     product: productReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
