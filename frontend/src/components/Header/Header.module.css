@@ -12,3 +12,8 @@
   font-size: 18px;
   font-weight: 500;
 }
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+}
