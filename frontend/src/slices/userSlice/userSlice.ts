@@ -2,6 +2,8 @@ import { jwtDecode } from 'jwt-decode';
 
 import { createSlice } from '@reduxjs/toolkit';
 
+import { login } from './services/login';
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { User, UserSchema } from './types';
@@ -21,6 +23,8 @@ const isTokenExpired = (token: string) => {
 const initialState: UserSchema = {
   inited: false,
   authData: null,
+  authDataLoading: false,
+  authDataError: null,
 };
 
 export const userSlice = createSlice({
@@ -51,6 +55,22 @@ export const userSlice = createSlice({
       state.authData = null;
       localStorage.removeItem(USER_LOCALSTORAGE_KEY);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state) => {
+      state.authDataError = null;
+      state.authDataLoading = true;
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.authDataLoading = false;
+      const authData = action.payload;
+      state.authData = authData;
+      localStorage.setItem(USER_LOCALSTORAGE_KEY, JSON.stringify(authData));
+    });
+    builder.addCase(login.rejected, (state, action) => {
+      state.authDataLoading = false;
+      state.authDataError = action.payload ?? null;
+    });
   },
 });
 

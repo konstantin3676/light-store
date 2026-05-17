@@ -1,5 +1,5 @@
 import { AdminContent } from '../../components/AdminContent/AdminContent';
-import { AuthForm } from '../../components/AuthForm/AuthForm';
+import { LoginForm } from '../../components/LoginForm/LoginForm';
 import { useAppSelector } from '../../hook';
 import {
   getUserAuthData,
@@ -16,7 +16,7 @@ export const AdminPage = () => {
   return (
     <div className={classes.container}>
       <div className={classes.content}>
-        {authData?.access_token ? <AdminContent /> : <AuthForm />}
+        {authData?.access_token ? <AdminContent /> : <LoginForm />}
       </div>
     </div>
   );
