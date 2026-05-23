@@ -2,7 +2,11 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query, status
 
-from src.schemas.product_schema import ProductResponse, UpdateProductRequest
+from src.schemas.product_schema import (
+    CreateProductRequest,
+    ProductResponse,
+    UpdateProductRequest,
+)
 from src.services.auth_service import AuthService, get_auth_service
 from src.services.product_service import ProductService, get_product_service
 
@@ -33,6 +37,15 @@ async def get_product(
 ):
     product = await service.get_by_id(product_id)
     return product
+
+
+@router.post("/", response_model=ProductResponse, summary="Create new product")
+async def add_product(
+    product_data: CreateProductRequest,
+    service: ProductService = Depends(get_product_service),
+):
+    res = await service.create_product(product_data)
+    return res
 
 
 @router.put(

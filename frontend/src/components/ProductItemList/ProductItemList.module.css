@@ -4,3 +4,9 @@
   gap: 10px;
   padding-block: 10px;
 }
+
+.addProductButton {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+}

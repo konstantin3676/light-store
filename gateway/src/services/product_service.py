@@ -1,7 +1,11 @@
 from fastapi import Depends, HTTPException, status
 
 from src.dependencies import get_service_client
-from src.schemas.product_schema import ProductResponse, UpdateProductRequest
+from src.schemas.product_schema import (
+    CreateProductRequest,
+    ProductResponse,
+    UpdateProductRequest,
+)
 from src.services.http_client_service import HttpClientService
 
 
@@ -42,10 +46,25 @@ class ProductService:
             )
         return product
 
+    async def create_product(self, data: CreateProductRequest) -> ProductResponse:
+        res = await self.service_client.call_service(
+            service_name="products",
+            method="POST",
+            endpoint="/",
+            headers={"Content-Type": "application/json"},
+            json=data.model_dump(mode="json"),
+        )
+        product = res.json()
+        if not product:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Product not found",
+            )
+        return product
+
     async def update_product(
         self, id: int, update_data: UpdateProductRequest
     ) -> ProductResponse:
-        print(update_data)
         res = await self.service_client.call_service(
             service_name="products",
             method="PUT",

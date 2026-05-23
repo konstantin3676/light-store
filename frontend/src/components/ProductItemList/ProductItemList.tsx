@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useAppDispatch, useAppSelector } from '../../hook';
@@ -33,7 +34,17 @@ export const ProductItemList = () => {
           }}
         />
       ))}
-      {editingProductId && (
+      <div className={classes.addProductButton}>
+        <Button
+          onClick={() => {
+            setEditingProductId(0);
+            open();
+          }}
+        >
+          Добавить
+        </Button>
+      </div>
+      {editingProductId != null && (
         <ProductEditorModal
           opened={opened}
           editingProductId={editingProductId}

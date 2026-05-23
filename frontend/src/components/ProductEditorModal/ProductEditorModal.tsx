@@ -3,17 +3,18 @@ import { isNotEmpty, useForm } from '@mantine/form';
 
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { getProductById, getProductLoading } from '../../slices/productSlice/selectors';
+import { createProduct } from '../../slices/productSlice/services/createProduct';
 import { fetchProducts } from '../../slices/productSlice/services/fetchProducts';
 import { updateProduct } from '../../slices/productSlice/services/updateProduct';
 
 import type { Product } from '../../slices/productSlice/types';
-// const initialValues = {
-//   name: '',
-//   desc: '',
-//   sku: '',
-//   price: '',
-//   stock: 0,
-// };
+const initialValues = {
+  name: '',
+  desc: '',
+  sku: '',
+  price: 0,
+  stock: 0,
+};
 
 type Props = {
   opened: boolean;
@@ -27,6 +28,7 @@ export const ProductEditorModal = ({
   onClose,
 }: Props) => {
   const dispatch = useAppDispatch();
+  const isNewProduct = editingProductId === 0;
   const getProductItemById = useAppSelector(getProductById);
   const product = getProductItemById[editingProductId];
   const loading = useAppSelector(getProductLoading);
@@ -34,7 +36,7 @@ export const ProductEditorModal = ({
   const form = useForm<Omit<Product, 'id'>>({
     mode: 'uncontrolled',
     initialValues: {
-      ...product,
+      ...(isNewProduct ? initialValues : product),
     },
 
     validate: {
@@ -46,17 +48,26 @@ export const ProductEditorModal = ({
   });
 
   const onSubmit = (values: Omit<Product, 'id'>) => {
-    dispatch(
-      updateProduct({
-        productId: editingProductId,
-        productData: values,
-      }),
-    ).then(({ meta }) => {
-      if (meta.requestStatus === 'fulfilled') {
-        dispatch(fetchProducts());
-        onClose();
-      }
-    });
+    if (isNewProduct) {
+      dispatch(createProduct({ productData: values })).then(({ meta }) => {
+        if (meta.requestStatus === 'fulfilled') {
+          dispatch(fetchProducts());
+          onClose();
+        }
+      });
+    } else {
+      dispatch(
+        updateProduct({
+          productId: editingProductId,
+          productData: values,
+        }),
+      ).then(({ meta }) => {
+        if (meta.requestStatus === 'fulfilled') {
+          dispatch(fetchProducts());
+          onClose();
+        }
+      });
+    }
   };
 
   return (
@@ -65,7 +76,7 @@ export const ProductEditorModal = ({
       size="lg"
       opened={opened}
       onClose={onClose}
-      title="Редактирование"
+      title={isNewProduct ? 'Создание' : 'Редактирование'}
     >
       <form onSubmit={form.onSubmit(onSubmit)}>
         <TextInput
@@ -105,7 +116,7 @@ export const ProductEditorModal = ({
         </Group>
         <Group mt="md" justify="flex-end">
           <Button type="submit" disabled={loading}>
-            Сохранить
+            {isNewProduct ? 'Создать' : 'Сохранить'}
           </Button>
         </Group>
       </form>
