@@ -12,6 +12,8 @@ class ProductResponse(BaseModel):
         Decimal,
         Field(ge=0, max_digits=10, decimal_places=2),
     ]
+    stock: int
+    sku: str
     model_config = ConfigDict(from_attributes=True)
 
 

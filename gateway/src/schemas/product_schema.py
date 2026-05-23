@@ -12,4 +12,17 @@ class ProductResponse(BaseModel):
         Decimal,
         Field(ge=0, max_digits=10, decimal_places=2),
     ]
+    stock: int
+    sku: str
     model_config = ConfigDict(from_attributes=True)
+
+
+class UpdateProductRequest(BaseModel):
+    name: str | None = None
+    desc: str | None = None
+    price: Annotated[
+        Decimal | None,
+        Field(ge=0, max_digits=10, decimal_places=2),
+    ] = None
+    stock: Annotated[int | None, Field(ge=0)] = None
+    sku: str | None = None

@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query, status
 
-from src.schemas.product_schema import ProductResponse
+from src.schemas.product_schema import ProductResponse, UpdateProductRequest
 from src.services.auth_service import AuthService, get_auth_service
 from src.services.product_service import ProductService, get_product_service
 
@@ -33,6 +33,22 @@ async def get_product(
 ):
     product = await service.get_by_id(product_id)
     return product
+
+
+@router.put(
+    "/{product_id}/",
+    response_model=ProductResponse,
+    summary="Update a product by id",
+)
+async def update_product(
+    product_id: int,
+    product_data: UpdateProductRequest,
+    product_service: ProductService = Depends(get_product_service),
+    auth_service: AuthService = Depends(get_auth_service),
+):
+    await auth_service.get_current_user()
+    res = await product_service.update_product(id=product_id, update_data=product_data)
+    return res
 
 
 @router.delete(

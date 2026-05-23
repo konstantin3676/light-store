@@ -2,7 +2,9 @@ export type Product = {
   id: number;
   name: string;
   desc: string;
-  price: string;
+  price: number;
+  sku: string;
+  stock: number;
 };
 
 export type ProductSchema = {

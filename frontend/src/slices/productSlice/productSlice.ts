@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { deleteProduct } from './services/deleteProduct';
 import { fetchProduct } from './services/fetchProduct';
 import { fetchProducts } from './services/fetchProducts';
+import { updateProduct } from './services/updateProduct';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { ProductSchema } from './types';
@@ -66,6 +67,17 @@ export const productSlice = createSlice({
       state.productLoading = false;
     });
     builder.addCase(deleteProduct.rejected, (state, action) => {
+      state.productLoading = false;
+      state.productError = action.payload ?? null;
+    });
+    builder.addCase(updateProduct.pending, (state) => {
+      state.productError = null;
+      state.productLoading = true;
+    });
+    builder.addCase(updateProduct.fulfilled, (state) => {
+      state.productLoading = false;
+    });
+    builder.addCase(updateProduct.rejected, (state, action) => {
       state.productLoading = false;
       state.productError = action.payload ?? null;
     });
