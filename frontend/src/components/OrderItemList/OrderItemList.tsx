@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 
-
-
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { getOrders } from '../../slices/orderSlice/selectors';
 import { fetchOrders } from '../../slices/orderSlice/services/fetchOrders';
@@ -18,8 +16,14 @@ export const OrderItemList = () => {
 
   return (
     <div className={classes.container}>
-      {orders.map(({ id, address, status }) => (
-        <OrderItem key={id} id={id} address={address} status={status} />
+      {orders.map(({ id, address, status, order_items: orderItems }) => (
+        <OrderItem
+          key={id}
+          id={id}
+          address={address}
+          status={status}
+          orderItems={orderItems}
+        />
       ))}
     </div>
   );

@@ -37,8 +37,8 @@ export const ProductCard = ({ id, name, desc, price }: Props) => {
           productId: id,
           name,
           quantity: 1,
-          price: Number.parseFloat(price),
-          priceAtPurchase: Number.parseFloat(price),
+          price,
+          priceAtPurchase: price,
         },
       ];
     }

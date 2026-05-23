@@ -17,6 +17,7 @@ class Order(Base, BaseModelMixin):
     order_items: Mapped[list["OrderItem"]] = relationship(
         "OrderItem",
         back_populates="order",
+        order_by="OrderItem.id",
         cascade="all, delete-orphan",
     )
 

@@ -1,12 +1,32 @@
 .container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
   padding: 6px;
   border: 1px solid #dee2e6;
   border-radius: 4px;
 }
+
+.addressContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selectContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .address {
   flex-grow: 1;
+  font-weight: 500;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quantity {
   font-weight: 500;
 }

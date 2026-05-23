@@ -24,7 +24,7 @@ async def add_order(
 
 @router.get(
     "/",
-    response_model=list[AllOrderResponse],
+    response_model=list[OrderResponse],
     summary="Get all orders",
 )
 async def get_all_orders(

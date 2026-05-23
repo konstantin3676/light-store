@@ -3,7 +3,6 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from src.schemas.order_schema import (
-    AllOrderResponse,
     CreateOrderRequest,
     OrderResponse,
     UpdateOrderRequest,
@@ -15,7 +14,7 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=list[AllOrderResponse],
+    response_model=list[OrderResponse],
     summary="Get all orders",
 )
 async def get_all_orders(
