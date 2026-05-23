@@ -25,6 +25,24 @@ class OrderService:
             )
         return order
 
+    async def get_all_orders(
+        self, skip: int | None, limit: int | None
+    ) -> list[OrderResponse]:
+        res = await self.service_client.call_service(
+            service_name="orders",
+            method="GET",
+            endpoint="/",
+            params={"skip": skip, "limit": limit},
+            headers={"Content-Type": "application/json"},
+        )
+        orders = res.json()
+        if orders is None:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Orders not found",
+            )
+        return orders
+
 
 async def get_order_service(
     service_client: HttpClientService = Depends(get_service_client),

@@ -43,3 +43,10 @@ class CreateOrderItemRequest(BaseModel):
 class CreateOrderRequest(BaseModel):
     address: str
     order_items: list[CreateOrderItemRequest]
+
+
+class AllOrderResponse(BaseModel):
+    id: int
+    address: str
+    status: OrderStatusEnum
+    model_config = ConfigDict(from_attributes=True)

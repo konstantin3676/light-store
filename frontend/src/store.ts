@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { api } from './api';
 import { basketReducer } from './slices/basketSlice/basketSlice';
+import { orderReducer } from './slices/orderSlice/orderSlice';
 import { productReducer } from './slices/productSlice/productSlice';
 import { userReducer } from './slices/userSlice/userSlice';
 
@@ -14,6 +15,7 @@ export const store = configureStore({
   reducer: {
     basket: basketReducer,
     product: productReducer,
+    order: orderReducer,
     user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>

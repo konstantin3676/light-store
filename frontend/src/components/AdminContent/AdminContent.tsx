@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Tabs } from '@mantine/core';
 
+import { OrderItemList } from '../OrderItemList/OrderItemList';
 import { ProductItemList } from '../ProductItemList/ProductItemList';
 
 export const AdminContent = () => {
@@ -17,7 +18,9 @@ export const AdminContent = () => {
       <Tabs.Panel value="products">
         <ProductItemList />
       </Tabs.Panel>
-      <Tabs.Panel value="orders">Orders</Tabs.Panel>
+      <Tabs.Panel value="orders">
+        <OrderItemList />
+      </Tabs.Panel>
     </Tabs>
   );
 };
