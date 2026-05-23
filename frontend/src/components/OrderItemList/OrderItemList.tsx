@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { getOrders } from '../../slices/orderSlice/selectors';
 import { fetchOrders } from '../../slices/orderSlice/services/fetchOrders';
+import { fetchProducts } from '../../slices/productSlice/services/fetchProducts';
 import { OrderItem } from '../OrderItem/OrderItem';
 import classes from './OrderItemList.module.css';
 
@@ -11,6 +12,7 @@ export const OrderItemList = () => {
   const orders = useAppSelector(getOrders);
 
   useEffect(() => {
+    dispatch(fetchProducts());
     dispatch(fetchOrders());
   }, [dispatch]);
 

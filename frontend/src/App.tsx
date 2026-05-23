@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 import { Layout } from './components/Layout/Layout';
 import { useAppDispatch } from './hook';
@@ -21,9 +21,14 @@ export const App = () => {
       <Route element={<Layout />}>
         <Route index element={<MainPage />} />
         <Route path="/products/:pid" element={<ProductPage />} />
-        <Route path="basket" element={<BasketPage />} />
-        <Route path="admin" element={<AdminPage />} />
+        <Route path="/basket" element={<BasketPage />} />
+        <Route
+          path="/admin"
+          element={<Navigate to="/admin/products" replace />}
+        />
+        <Route path="/admin/:tab" element={<AdminPage />} />
       </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

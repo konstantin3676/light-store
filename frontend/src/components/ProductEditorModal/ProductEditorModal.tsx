@@ -12,7 +12,7 @@ const initialValues = {
   name: '',
   desc: '',
   sku: '',
-  price: 0,
+  price: '0',
   stock: 0,
 };
 

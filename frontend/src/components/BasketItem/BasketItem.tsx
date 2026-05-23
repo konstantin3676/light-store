@@ -1,4 +1,6 @@
-import { ActionIcon } from '@mantine/core';
+import { Link } from 'react-router';
+
+import { ActionIcon, Anchor } from '@mantine/core';
 import { MinusIcon, PlusIcon, TrashIcon } from '@phosphor-icons/react';
 
 import { useAppDispatch, useAppSelector } from '../../hook';
@@ -20,7 +22,16 @@ export const BasketItem = ({ id, name, quantity, priceAtPurchase }: Props) => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.name}>{name}</div>
+      <div className={classes.name}>
+        <Anchor
+          component={Link}
+          to={`/products/${id}`}
+          underline="never"
+          fw={500}
+        >
+          {name}
+        </Anchor>
+      </div>
       <div className={classes.wrapper}>
         <div className={classes.quantity}>
           <ActionIcon

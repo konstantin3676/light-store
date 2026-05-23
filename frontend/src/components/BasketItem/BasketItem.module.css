@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 10px;
   padding: 6px;
@@ -14,7 +15,6 @@
 
 .name {
   flex-grow: 1;
-  font-weight: 500;
 }
 
 .quantity {
