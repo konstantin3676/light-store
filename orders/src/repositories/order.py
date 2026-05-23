@@ -30,7 +30,7 @@ class OrderRepository:
         self, skip: int | None = 0, limit: int | None = 100
     ) -> Sequence[Order]:
         result = await self.db.execute(
-            select(Order).offset(skip).limit(limit),
+            select(Order).order_by(Order.id).offset(skip).limit(limit),
         )
         return result.scalars().all()
 

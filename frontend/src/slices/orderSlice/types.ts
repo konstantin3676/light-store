@@ -1,11 +1,4 @@
-export type OrderStatus =
-  | 'CREATED'
-  | 'PAID'
-  | 'PROCESSING'
-  | 'SHIPPED'
-  | 'DELIVERED'
-  | 'CANCELLED'
-  | 'RETURNED';
+import type { OrderStatus } from '../basketSlice/types';
 
 export type Order = {
   id: number;
@@ -17,4 +10,7 @@ export type OrderSchema = {
   orders: Order[];
   ordersLoading: boolean;
   ordersError: string | null;
+  order: Order | null;
+  orderLoading: boolean;
+  orderError: string | null;
 };

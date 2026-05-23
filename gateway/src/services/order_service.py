@@ -1,7 +1,11 @@
 from fastapi import Depends, HTTPException, status
 
 from src.dependencies import get_service_client
-from src.schemas.order_schema import CreateOrderRequest, OrderResponse
+from src.schemas.order_schema import (
+    CreateOrderRequest,
+    OrderResponse,
+    UpdateOrderRequest,
+)
 from src.services.http_client_service import HttpClientService
 
 
@@ -42,6 +46,24 @@ class OrderService:
                 detail="Orders not found",
             )
         return orders
+
+    async def update_order(
+        self, id: int, update_data: UpdateOrderRequest
+    ) -> OrderResponse:
+        res = await self.service_client.call_service(
+            service_name="orders",
+            method="PUT",
+            endpoint=f"/{id}",
+            json=update_data.model_dump(),
+            headers={"Content-Type": "application/json"},
+        )
+        order = res.json()
+        if not order:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to update order",
+            )
+        return order
 
 
 async def get_order_service(

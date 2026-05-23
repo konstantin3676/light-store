@@ -50,3 +50,8 @@ class AllOrderResponse(BaseModel):
     address: str
     status: OrderStatusEnum
     model_config = ConfigDict(from_attributes=True)
+
+
+class UpdateOrderRequest(BaseModel):
+    address: str | None = None
+    status: OrderStatusEnum | None = None

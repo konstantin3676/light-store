@@ -40,7 +40,7 @@ class ProductRepository:
         self, skip: int | None = 0, limit: int | None = 100
     ) -> list[Product]:
         result = await self.db.execute(
-            select(Product).offset(skip).limit(limit),
+            select(Product).order_by(Product.id).offset(skip).limit(limit),
         )
         return list(result.scalars().all())
 
