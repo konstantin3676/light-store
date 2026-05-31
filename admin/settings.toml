@@ -1,6 +1,6 @@
 [app_settings]
 app_version = "0.1.0"
-app_name = "Gateway"
+app_name = "Admin"
 app_host = "0.0.0.0"
 app_port = 8000
 
@@ -14,7 +14,7 @@ http_max_retries = 3
 db_name = "postgres"
 db_user = "user"
 db_password = "password"
-db_host = "gateway_db"
+db_host = "admin_db"
 db_port = 5432
 db_ext_port = 5434
 

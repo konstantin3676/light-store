@@ -14,7 +14,7 @@ from src.models.user import User  # noqa: F401
 config = context.config
 
 config.set_main_option(
-    "sqlalchemy.url", settings.db.dsl.replace("@gateway_db:", "@localhost:")
+    "sqlalchemy.url", settings.db.dsl.replace("@admin_db:", "@localhost:")
 )
 
 # Interpret the config file for Python logging.

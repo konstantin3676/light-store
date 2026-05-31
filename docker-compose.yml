@@ -65,25 +65,25 @@ services:
       orders_db:
         condition: service_healthy
 
-  gateway:
+  admin:
     build:
-      context: ./gateway
+      context: ./admin
       dockerfile: Dockerfile
-    container_name: gateway
+    container_name: admin
     command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
-      - ./gateway/src:/app/src
+      - ./admin/src:/app/src
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql+asyncpg://user:password@gateway_db:5432/postgres
+      DATABASE_URL: postgresql+asyncpg://user:password@admin_db:5432/postgres
     depends_on:
-      gateway_db:
+      admin_db:
         condition: service_healthy
 
-  gateway_db:
+  admin_db:
     image: postgres:17
-    container_name: gateway_db
+    container_name: admin_db
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: user
@@ -91,7 +91,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - gateway_data:/var/lib/postgresql/data
+      - admin_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d postgres"]
       interval: 5s
@@ -112,4 +112,4 @@ services:
 volumes:
   products_data:
   orders_data:
-  gateway_data:
+  admin_data:
