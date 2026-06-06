@@ -8,6 +8,7 @@ from src.schemas.order_schema import (
     OrderResponse,
     UpdateOrderRequest,
 )
+from src.services.auth_service import AuthService, get_auth_service
 from src.services.order_service import OrderService, get_order_service
 
 router = APIRouter()
@@ -31,7 +32,9 @@ async def get_all_orders(
     skip: Annotated[int | None, Query(ge=0)] = 0,
     limit: Annotated[int | None, Query(ge=1, le=1000)] = 100,
     service: OrderService = Depends(get_order_service),
+    auth_service: AuthService = Depends(get_auth_service),
 ):
+    await auth_service.get_current_user()
     orders = await service.get_all_orders(skip=skip, limit=limit)
     return orders
 
@@ -45,6 +48,8 @@ async def update_order(
     order_id: int,
     order_data: UpdateOrderRequest,
     service: OrderService = Depends(get_order_service),
+    auth_service: AuthService = Depends(get_auth_service),
 ):
+    await auth_service.get_current_user()
     res = await service.update_order(id=order_id, update_data=order_data)
     return res

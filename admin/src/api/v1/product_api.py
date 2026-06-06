@@ -43,7 +43,9 @@ async def get_product(
 async def add_product(
     product_data: CreateProductRequest,
     service: ProductService = Depends(get_product_service),
+    auth_service: AuthService = Depends(get_auth_service),
 ):
+    await auth_service.get_current_user()
     res = await service.create_product(product_data)
     return res
 
